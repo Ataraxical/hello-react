@@ -12,6 +12,8 @@ function Library() {
     setMyBooks(books);
   }
 
+  error;
+  
   getBooks();
 
   return (
