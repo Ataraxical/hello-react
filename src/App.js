@@ -1,4 +1,40 @@
 import './App.css';
+import { useState } from 'react';
+import { supabase } from './supabaseClient';
+
+function Library() {
+  const [myBooks, setMyBooks] = useState([]);
+  async function getBooks() {
+    let {data: books, error} = await supabase
+      .from('books')
+      .select('*')
+
+    setMyBooks(books);
+  }
+
+  getBooks();
+
+  return (
+    <table className="books-table">
+      <tr className="label-row">
+          <td className="label-entry">Title</td>
+          <td className="label-entry">Author</td>
+          <td className="label-entry">ISBN</td>
+      </tr>
+
+      {
+        myBooks.map(b => (
+          <tr className="entry-row">
+            <td className="table-entry">{b.title}</td>
+            <td className="table-entry">{b.author}</td>
+            <td className="table-entry">{b.isbn}</td>
+          </tr>
+        ))
+      }
+    </table>
+  )
+}
+
 const CharacterPages = 
 [
   {class:'Paladin', classColor: '#F48CBA', perfAvg: '98.8', link: "https://classic.warcraftlogs.com/character/us/mankrik/unboostable"},
@@ -53,6 +89,8 @@ function App() {
         <UlduarImg/>
         <WarcraftLogs/>
         <WorldFirstGuilds/>
+        <h2>Some of my Favorite Books</h2>
+        <Library />
       </header>
     </div>
   );
